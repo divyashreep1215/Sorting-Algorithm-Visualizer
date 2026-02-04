@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About - Sorting Algorithms</title>
+<style>
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #50668e, #417756);
+  color: #fff;
+  overflow-x: hidden;
+}
+header {
+  text-align: center;
+  padding: 50px 20px;
+  background: #0d1b2a;
+}
+h1 {
+  font-size: 2.8em;
+  margin-bottom: 10px;
+  color: #a8dadc;
+}
+section {
+  padding: 50px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+button {
+  background: #e63946;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 10px;
+}
+button:hover {
+  background: #a4161a;
+  transition: 0.3s;
+}
+
+/* ===== ABOUT CONTENT ===== */
+#about-section {
+  text-align: center;
+}
+.about-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+}
+.team {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.member {
+  text-align: center;
+}
+.member img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid #a8dadc;
+  object-fit: cover;
+}
+.member p {
+  margin-top: 10px;
+  color: #f1faee;
+}
+
+/* ===== GAME SECTION ===== */
+#game-section {
+  display: none;
+  text-align: center;
+}
+#game-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+.number {
+  position: absolute;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+#score-display {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #0d1b2a;
+  font-size: 0.9em;
+  color: #a8dadc;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>About Sorting Algorithms</h1>
+  <p>Learn how data finds its perfect order</p>
+</header>
+
+<!-- ===== ABOUT SECTION ===== -->
+<section id="about-section">
+  <div class="about-card">
+    <h2>Description</h2>
+    <p>Sorting algorithms are the foundation of data organization and optimization. This website helps learners
+      explore how sorting works through simple explanations, engaging visuals, and interactive games.</p>
+  </div>
+
+  <div class="about-card">
+    <h2> Vision</h2>
+    <p>Our goal is to make computer science learning fun and interactive, so that complex concepts like sorting
+      become easy to understand through play.</p>
+  </div>
+
+  <div class="about-card">
+    <h2> Meet the Team</h2>
+    <div class="team">
+      <div class="member">
+      
+        <p><strong>Chandana S N</strong><br>Department of ISE<br></p>
+      </div>
+      <div class="member">
+       
+        <p><strong>Divyashree P</strong><br>Department of ISE<br></p>
+      </div>
+    </div>
+  </div>
+
+  <button id="play-btn"> Play Sorting Game</button>
+  <button id="exit-about-btn"> Exit</button>
+</section>
+
+<!-- ===== GAME SECTION ===== -->
+<section id="game-section">
+  <h2>Sorting Game</h2>
+  <p>Tap the numbers in ascending order before they reach the bottom!</p>
+  <div id="score-display">Score: 0</div>
+  <button id="start-btn">Start Game</button>
+  <button id="exit-btn" style="display:none;">Exit Game</button>
+  <button id="back-btn">Back to About</button>
+  <div id="game-container"></div>
+</section>
+
+<footer>© 2025 Sorting Algorithms | Learn • Sort • Play</footer>
+
+<script>
+/* --- DOM Elements --- */
+const aboutSection = document.getElementById("about-section");
+const gameSection = document.getElementById("game-section");
+const playBtn = document.getElementById("play-btn");
+const startBtn = document.getElementById("start-btn");
+const exitBtn = document.getElementById("exit-btn");
+const backBtn = document.getElementById("back-btn");
+const exitAboutBtn = document.getElementById("exit-about-btn");
+const gameContainer = document.getElementById("game-container");
+const scoreDisplay = document.getElementById("score-display");
+
+/* --- Game Variables --- */
+let numbers = [];
+let nextExpected = 1;
+let fallSpeed = 1.5;
+let active = false;
+let animationFrame;
+let score = 0;
+
+/* --- Navigation --- */
+playBtn.addEventListener("click", () => {
+  aboutSection.style.display = "none";
+  gameSection.style.display = "block";
+});
+backBtn.addEventListener("click", () => {
+  resetGame();
+  gameSection.style.display = "none";
+  aboutSection.style.display = "block";
+});
+exitAboutBtn.addEventListener("click", () => {
+  window.location.href = "index.html"; // ✅ Exit goes to index page
+});
+
+/* --- Game Logic --- */
+startBtn.addEventListener("click", startGame);
+exitBtn.addEventListener("click", resetGame);
+
+function startGame() {
+  startBtn.style.display = "none";
+  exitBtn.style.display = "inline-block";
+  active = true;
+  nextExpected = 1;
+  fallSpeed = 0.5;
+  score = 0;
+  updateScore();
+  spawnNumbers();
+  gameLoop();
+}
+
+function updateScore() {
+  scoreDisplay.textContent = "Score: " + score;
+}
+
+/* Prevent overlapping circles */
+function generatePositions(count, radius, width) {
+  const positions = [];
+  let attempts = 0;
+  while (positions.length < count && attempts < 500) {
+    const x = Math.random() * (width - radius * 2) + radius;
+    let valid = true;
+    for (let p of positions) {
+      if (Math.abs(p - x) < radius * 2.5) {
+        valid = false;
+        break;
+      }
+    }
+    if (valid) positions.push(x);
+    attempts++;
+  }
+  return positions;
+}
+
+function spawnNumbers() {
+  gameContainer.innerHTML = "";
+  numbers = [];
+  const count = 5;
+  const positions = generatePositions(count, 30, gameContainer.clientWidth);
+
+  for (let i = 1; i <= count; i++) {
+    const div = document.createElement("div");
+    div.classList.add("number");
+    div.textContent = i;
+    const color = `hsl(${Math.random() * 360}, 70%, 55%)`;
+    div.style.background = color;
+    div.style.left = positions[i - 1] - 30 + "px";
+    div.style.top = Math.random() * -150 + "px";
+    gameContainer.appendChild(div);
+    numbers.push({ element: div, value: i, y: parseFloat(div.style.top) });
+    div.addEventListener("click", () => handleClick(i, div));
+  }
+}
+
+function handleClick(value, element) {
+  if (!active) return;
+  if (value === nextExpected) {
+    element.remove();
+    nextExpected++;
+    score += 10;
+    updateScore();
+    if (nextExpected > 5) {
+      fallSpeed += 0.5;
+      nextExpected = 1;
+      spawnNumbers();
+    }
+  } else {
+    alert(" Wrong number! Try again.");
+    resetGame();
+  }
+}
+
+function gameLoop() {
+  if (!active) return;
+  numbers.forEach(num => {
+    num.y += fallSpeed;
+    num.element.style.top = num.y + "px";
+    if (num.y > gameContainer.clientHeight) {
+      alert(" Game Over! You missed a number.\nYour final score: " + score);
+      resetGame();
+    }
+  });
+  animationFrame = requestAnimationFrame(gameLoop);
+}
+
+function resetGame() {
+  cancelAnimationFrame(animationFrame);
+  active = false;
+  numbers = [];
+  gameContainer.innerHTML = "";
+  startBtn.style.display = "inline-block";
+  exitBtn.style.display = "none";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorting Visualizer | Jokes Corner</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(120deg, #041528, #00bcd4);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    #joke-text {
+      font-size: 1.3rem;
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 600px;
+      background: rgba(129, 94, 94, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn {
+      background: white;
+      color: #29415d;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #e3f2fd;
+      transform: scale(1.05);
+    }
+
+    /* Exit Button */
+    .exit-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      color: #ff0048;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 500;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.3s;
+      z-index: 999;
+    }
+
+    .exit-btn:hover {
+      background: #e3f2fd;
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="exit-btn"> Exit to Home</a>
+
+  <h1>Jokes Corner</h1>
+  <p id="joke-text">Loading a hilarious joke...</p>
+  <button class="btn" onclick="showJoke()">Tell me another </button>
+
+  <footer>© 2025 Sorting Visualizer | Laugh & Learn </footer>
+
+  <script>
+    const jokes = [
+      " I tried to teach Bubble Sort to my clothes… but they still don’t fold themselves.",
+      " QuickSort walks into a bar… divides everyone into groups and leaves recursively.",
+      " Why did Bubble Sort fail the interview? Too slow under pressure.",
+      " Insertion Sort is that one friend who always says  ‘Let me just fix this one thing.’",
+      " Programmers don’t get tired, They just hit an infinite loop of coffee.",
+      " Selection Sort at a buffet: keeps checking every dish before picking one.",
+      "QuickSort never argues — it just partitions the problem.",
+      " Why did the array break up with the list? Irreconcilable sorting differences.",
+      " I asked my computer to help me sort my feelings… it crashed.",
+      " Bubble Sort is like that one friend who double-checks everything.",
+      " Life’s unsorted — at least your array isn’t.",
+      " Coding is 10% writing, 90% staring at errors.",
+      "Bubble Sort be like: I will sort this… even if it takes my entire lifespan.",
+      "Selection Sort energy:Scans the whole room to pick one person.",
+      "Quick Sort splitting people into groups like a HR manager.",
+      "Decision-making: 1%, Scanning: 99%.",
+      "Merge sort:Break it. Fix it. Perfect it.",
+      "Insertion sort:Neat freak of algorithms."
+
+    ];
+
+    function showJoke() {
+      const randomIndex = Math.floor(Math.random() * jokes.length);
+      const jokeBox = document.getElementById("joke-text");
+      jokeBox.style.opacity = 0;
+      setTimeout(() => {
+        jokeBox.innerText = jokes[randomIndex];
+        jokeBox.style.opacity = 1;
+      }, 300);
+    }
+
+    window.onload = showJoke;
+  </script>
+</body>
+</html>
