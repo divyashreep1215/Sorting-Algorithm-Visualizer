@@ -14,7 +14,7 @@ Responsive Design: Fully functional on desktops
 Algorithm Library: Includes popular algorithms like Bubble Sort, Selection Sort, Insertion Sort, Quick Sort and Merge Sort.
 
 📂 Project Structure
-Plaintext
-├── index.html       # Main structure and UI layout
-├── style.css        # Custom styling and animations
-└── README.md        # Documentation
+
+├── index.html      
+├── style.css        
+└── README.md        
